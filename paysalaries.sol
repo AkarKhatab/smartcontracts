@@ -17,19 +17,15 @@ contract PaySalaries {
     function addBalance() public payable {
         balances[msg.sender] += msg.value;
     }
-    function getSalary(uint _amount) public returns (uint){
+    
+    function getSalary(uint _amount) public {
         _amount *= 1000000000000000000;
         checkvar += 1000;
         if (employeePaid == false && this.balance > _amount) {
             checkvar += 100;
-            if (msg.sender.call(_amount)) {
-                checkvar += 10;
-                 // if we can't pay it forward, send it back
-            }
             balances[msg.sender] -= _amount;
             employeePaid = true;
             checkvar += 1;
-            return 2;
         }
     }
 

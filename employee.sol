@@ -1,21 +1,26 @@
 pragma solidity ^0.4.0;
-import './PaySalaries.sol';
-
 contract Employee {
 
     uint private moneyBalance = 0;
     address owner;
+    address paysalaries;
+    uint private checkvar_empl;
     mapping (address => uint) public balances;
 
-    function Employee () public {
+    function Employee (address _paysalaries) public {
         owner = msg.sender;
+        checkvar_empl = 0;
+        paysalaries = _paysalaries;
     }
 
     function addBalance() public payable {
         balances[msg.sender] += msg.value;
     }
+    
     function askSalary(uint _amount) public {
-        //watch_addr.call(bytes4(sha3("getSalary(_amount)")), _amount);
+        checkvar_empl += 1;
+        paysalaries.call(bytes4(keccak256("getSalary(uint256)")),_amount);
+        checkvar_empl += 10;
     }
 
     function getMyBalance() public constant returns (uint) {
@@ -26,9 +31,10 @@ contract Employee {
         if(msg.sender == owner) {
             selfdestruct(owner);
         }
-}
-
-    function () payable {
-
     }
+    
+    function getCheckvarEmpl() public constant returns (uint) {
+        return checkvar_empl;
+    }
+
 }
